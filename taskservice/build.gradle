@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'taskservice'
+
+    publishedGroupId = 'it.simonecascino'
+    libraryName = 'TaskService'
+    artifact = 'taskservice'
+
+    libraryDescription = 'Enahnced IntentService'
+
+    siteUrl = 'https://bitbucket.org/SimoneCascino/taskservice'
+    //gitUrl = 'https://github.com/nuuneoi/FBLikeAndroid.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'simone-cascino'
+    developerName = 'Simone Cascino'
+    developerEmail = 'simone.cascino1984@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-annotations:25.1.1'
+}
+
