@@ -10,7 +10,8 @@ TaskService is an enhanced IntentService, with the following advantages:
 
 
 
-Usage is very similar:
+# Usage #
+Usage is very similar to the IntentService:
 
 * Create a class that extends TaskService and implement the abstract method **onBackgroundExecution**
 * Declare the class in the manifest as a Service.
@@ -24,15 +25,15 @@ TaskService **should not be started with startService method**, instead there ar
   * the "onBackgroundExecution" method has as argument a non null *SharedArgs* object. SharedArgs is a wrapper for a Bundle that is shared between tasks, in order to put inside it variables. Also, SharedArgs has a method that returns an integer ArrayList with the ids of the next tasks, and some helper method for set an integer ArrayList with the ids of future tasks that shold be skipped. Note that if you have a sequence like 1,2,3,2 and you set in skip ids ArrayList the number 2, only the first will be skipped.
 
 
-### Set up ###
+# Set up #
 
 TaskService is available on jCenter repository. Just add to your dependencies:
 
-**compile 'com.android.support:support-annotations:25.1.1'**
+**compile 'it.simonecascino:taskservice:1.0.1'**
 
 
 
 
 
-##Simone Cascino
-##simone.cascino1984@gmail.com
+###Simone Cascino
+###simone.cascino1984@gmail.com
