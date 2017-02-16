@@ -356,12 +356,11 @@ public abstract class TaskService extends Service{
      * Method that will be implemented in a class that extends TaskService. Is executed in a worker thread.
      *
      * @param id            The id of the task.
-     * @param args          The bundle passed when the request is built.
+     * @param args          The bundle passed when the request is built. Can be null.
      * @param type          Type of the request, one of TYPE_SYNC, TYPE_PARALLEL and TYPE_PROMISE.
-     * @param sharedArgs  	Used only for multiple sync request, null otherwise. This object is a wrapper for a bundle, shared between multiple task. For example, calling createMultipleSyncRequests with ids = 1 - 2 - 3, this object is available when executing 1,
-     *                      so is possible to put values. When 2 is executing, the same object is available, so is possible to get data putting in the previous task. Also this bundle could have 2 private fields, EXTRA_SHARED_NEXT_ID, that contains
-     *                      the id of the next task, and EXTRA_SHARED_SKIP_ID, a customizable fields useful for skip tasks (putting an integer id with this key the task that match this id will be skipped).
-     * @return a boolean value, useful only with a chain of sync requests(using createMultipleSyncRequests). Return true if the execution should be continue. A return of false break the entire chain.
+     * @param sharedArgs  	Used only for multiple sync request or for the syncronized part of a promise request, null otherwise. This object is a wrapper for a bundle, shared between multiple task. For example, calling createMultipleSyncRequests with ids = 1 - 2 - 3, this object is available when executing 1,
+     *                      so is possible to put values. When 2 is executing, the same object is available, so is possible to get data putted in the previous task. Also this object contains 2 integer Arraylist, one contains ids of the next requests and the other, optional, contains ids of tasks that you want to skip.
+     * @return a boolean value, useful only with a chain of sync requests (using createMultipleSyncRequests or createPromiseRequest). Return true if the execution should be continue. A return of false break the entire chain.
      */
     public abstract boolean onBackgroundExecution(int id, @Nullable Bundle args, int type, @Nullable SharedArgs sharedArgs);
 
@@ -388,7 +387,7 @@ public abstract class TaskService extends Service{
     //// TODO: 24/10/2016 force users to pass null or a same-size array for bundle
 
     /**
-     * Create a single request. This request will be executed synchronously to other sync requests, asynchronously to other asyc requests.
+     * Create a single request. This request will be executed synchronously to other sync requests, exactly like an IntentService.
      *
      * @param context   A Context of the application package implementing this class.
      * @param cls       The component class that is to be used (must extends TaskService).
@@ -410,7 +409,8 @@ public abstract class TaskService extends Service{
 	}
 
     /**
-     * Create multiple requests. These requests are synchronized.
+     * Create multiple requests. These requests are synchronized. A return of false in the onBackgroundExecution method break the chain. The SharedArgs object passed in the onBackgroundExecution is not null and can be used for share data between tasks, skip future tasks and for
+	 * obtain info about the next tasks.
      *
      * @param context       A Context of the application package implementing this class.
      * @param cls           The component class that is to be used (must extends TaskService).

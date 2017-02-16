@@ -20,6 +20,11 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+/**
+ * This class is a wrapper for a bundle object, that can be shared between multiple sync and promise tasks.
+ * This class contains also nextIds array, that contains the ids of the next tasks, and the skipIds ArrayList, optional,
+ * that if setted, contains the ids of future tasks that will be skipped.
+ */
 public final class SharedArgs {
 
     private Bundle bundle;
@@ -59,18 +64,12 @@ public final class SharedArgs {
     }
 
     /**
+     * get an integer ArrayList that contains the ids of the future task that should be skipped. Is optional and null if not set.
      *
-     * @return
+     * @return an integer ArrayList with the ids of future tasks that should be skipped.
      */
     public ArrayList<Integer> getSkipIds(){
         return skipIds;
-    }
-
-    /**
-     *
-     */
-    public void removeSkipIds(){
-        this.skipIds = null;
     }
 
     void setNextIds(int[] ids, int point){
